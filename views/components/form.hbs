@@ -1,0 +1,106 @@
+        <form id="contactForm">
+            <div class="mb-3 row">
+                <div class="col-md-6">
+                    <label for="firstName" class="form-label">First Name *</label>
+                    <input type="text" class="form-control" id="firstName" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="lastName" class="form-label">Last Name </label>
+                    <input type="text" class="form-control" id="lastName">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Email Address *</label>
+                    <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="phone">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-md-6">
+                    <label for="company" class="form-label">Company Name</label>
+                    <input type="text" class="form-control" id="company">
+                </div>
+                <div class="col-md-6">
+                    <label for="country" class="form-label">Country</label>
+                    <select id="country" class="form-select">
+                        <option selected>None</option>
+                        <option>Spain</option>
+                        <option>Germany</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="propertySold" class="form-label">Which product are you interested in purchasing? *</label>
+                <select id="propertySold" class="form-select" required>
+                    <option selected>Flow Meter</option>
+                    <option>Industrial Valves</option>
+                    <option>Water Meter</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="investorType" class="form-label">How do you identify yourself? *</label>
+                <select id="investorType" class="form-select" required>
+                    <option selected>Corporate Buyer</option>
+                    <option>Wholesale Buyer</option>
+                    <option>Retail Buyer</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="helpMessage" class="form-label">How may we help you? *</label>
+                <textarea class="form-control" id="helpMessage" rows="4" required></textarea>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+            </div>
+        </form>
+        
+        <script>
+        document.getElementById('contactForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+        
+            const submitButton = document.getElementById('submitButton');
+            submitButton.disabled = true;
+            submitButton.innerHTML = 'Submitting... <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+        
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                company: document.getElementById('company').value,
+                country: document.getElementById('country').value,
+                product: document.getElementById('propertySold').value,
+                investorType: document.getElementById('investorType').value,
+                helpMessage: document.getElementById('helpMessage').value,
+            };
+        
+            try {
+                const response = await fetch('http://localhost:3001/mailer/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+        
+                if (response.ok) {
+                    alert('Email sent successfully!');
+                } else {
+                    alert('Failed to send email.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while sending the email.');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'Submit';
+            }
+        });
+        </script>

@@ -1,0 +1,50 @@
+{{>navbar}}
+{{>title}}
+
+
+<div class="rp-container container py-5">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- Card 1 -->
+        {{#each blogs.data}}
+        <div class="col">
+            <div class="rp-card card h-100 shadow-sm mb-4">
+                <div class="rp-card-img-container">
+                    <img src="../../public/uploads/{{this.default_image}}" class="rp-card-img card-img-top" alt="Related Post">
+                    <a href="#" class="rp-overlay-link"><i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="rp-card-body card-body text-center">
+                    <h5 class="rp-card-title">{{this.title}}</h5>
+                    <p class="rp-card-text">{{this.short_description}}</p>
+                </div>
+                <div class="rp-card-footer card-footer d-flex justify-content-center">
+                <span class="ms-4"><i class="fas fa-calendar"></i> {{formatDate this.created_at}}</span>
+                </div>
+            </div>
+            
+        </div>
+{{/each}}
+
+        <!-- Card 3 -->
+        <div class="col">
+            <div class="rp-card card h-100 shadow-sm mb-4">
+                <div class="rp-card-img-container">
+                    <img src="/public/img/blog-worker.webp" class="rp-card-img card-img-top" alt="Related Post">
+                    <a href="#" class="rp-overlay-link"><i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="rp-card-body card-body text-center">
+                    <h5 class="rp-card-title">A Deep Dive into Modern Tech</h5>
+                    <p class="rp-card-category">Innovation</p>
+                    <p class="rp-card-text">Explore the newest trends and innovations in the tech world and what
+                        they mean for the future.</p>
+                </div>
+                <div class="rp-card-footer card-footer d-flex justify-content-center">
+                    <span><i class="fas fa-eye"></i> 1842</span>
+                    <span class="ms-4"><i class="fas fa-clock"></i> 3 min</span>
+                    <span class="ms-4"><i class="fas fa-calendar"></i> Mar 15, 2023</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{>footer}}

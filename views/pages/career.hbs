@@ -1,0 +1,168 @@
+{{>navbar}}
+{{>title}}
+
+<div class="container py-5">
+    <h1>Welcome to UPC</h1>
+    <h6>Global and cosmopolitan - We offer all employees a wide range of individual development opportunities.</h6>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem autem et voluptates esse aliquid error
+        reprehenderit quos eius hic, dignissimos consequatur itaque a numquam magnam incidunt in iure fugit laboriosam?
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae dolore alias aspernatur voluptatem
+        architecto quam corrupti commodi ad sint, aliquam natus harum at, nostrum consequuntur ea id autem. Sit,
+        quisquam.</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi velit esse nam quisquam voluptatibus explicabo
+        voluptates eaque aspernatur omnis adipisci recusandae distinctio voluptas quasi voluptate, natus aliquid.
+        Officiis, facere quas! Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia voluptate ab, dolorum,
+        ducimus nemo veritatis ex odio molestias velit autem rem harum alias, et tempora quasi tenetur commodi minus
+        natus.</p>
+    <div class="py-2">
+        {{> button link="#vacancies" text="Show Vacancies" }}
+    </div>
+    <section class="prospects-section  py-5">
+        <div class="">
+            <h1 class="mb-5">Your prospects at UPC</h1>
+            <div class="row gy-4">
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="prospect-card">
+                        <div class="separator"></div>
+                        <h5>Friendly Work Environment</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="prospect-card">
+                        <div class="separator"></div>
+                        <h5>Innovative Culture</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="prospect-card">
+                        <div class="separator"></div>
+                        <h5>Global Exposure</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="prospect-card">
+                        <div class="separator"></div>
+                        <h5>Skill Development</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="prospect-card">
+                        <div class="separator"></div>
+                        <h5>Diversity & Inclusion</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="prospect-card">
+                        <div class="separator"></div>
+                        <h5>100+ Years of Expertise</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="prospect-card">
+                        <div class="separator"></div>
+                        <h5>Creative Initiatives</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="prospect-card">
+                    <div class="separator"></div>
+                    <h5>Work-Life Balance</h5>
+                </div>
+            </div>
+        </div>
+</div>
+</section>
+<section class="become-section py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1>Become a Team Member</h1>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus debitis magnam quisquam
+                    incidunt magni omnis sint tenetur voluptatibus placeat nobis, necessitatibus id molestias
+                    cupiditate quasi earum, possimus enim, tempore aspernatur.
+                </p>
+                <p>
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio voluptates, nisi debitis
+                    doloremque quo molestiae amet error obcaecati ipsa temporibus perferendis placeat neque
+                    architecto cupiditate commodi soluta. Eos, unde quos?
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <img src="/public/img/working man3.webp" alt="Team Members Working" class="img-fluid rounded">
+            </div>
+        </div>
+    </div>
+</section>
+<section id="vacancies" class="vacancies-section container py-5">
+    <div class="">
+        <h1 class="mb-4">Vacancies</h1>
+        <hr>
+        <div class="job-listings">
+            <div class="job-item d-flex justify-content-between align-items-center py-3">
+                <div>
+                    <h5 class="job-title">Team leader / technician for internal sales (m/f/d)</h5>
+                    <p class="location">Duisburg | Germany</p>
+                </div>
+                <div class="py-2">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#jobModal">
+                        Details
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <div class="job-item d-flex justify-content-between align-items-center py-3">
+                <div>
+                    <h5 class="job-title">Software Developer Digital Twin / Asset Administration Shell AAS (m/f/d)</h5>
+                    <p class="location">Duisburg | Germany</p>
+                </div>
+                <div class="py-2">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#jobModal">
+                        Details
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <!-- Additional job listings... -->
+        </div>
+    </div>
+</section>
+</div>
+
+<!-- Job Application Modal -->
+<div class="modal fade" id="jobModal" tabindex="-1" aria-labelledby="jobModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jobModalLabel">Apply for the Job</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="subtitle"><b> Job Title: </b>Team leader / technician for internal sales (m/f/d)</h6>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam doloremque labore ex repellat
+                    dolores maiores magni, autem dolore porro expedita architecto deserunt quisquam animi ullam!</p>
+                <form>
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactNo" class="form-label">Contact No.</label>
+                        <input type="text" class="form-control" id="contactNo" required>
+                    </div>
+                    <button type="submit" class="btn custom-btn-color">Apply</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{>footer}}

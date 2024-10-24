@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  email          String
+  name           String
+  password       String?
+  remember_token String?
+  user_type_id   String
+  updated_at     DateTime @db.Date
+  created_at     DateTime @db.Date
+}
+
+model user_types {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model products {
+  id                  String            @id @default(auto()) @map("_id") @db.ObjectId
+  name                String
+  description         String?
+  specifications      String?
+  images              String[] // Array of image URLs
+  default_image       String // Field for the default image URL // Array of ObjectId references to the products_category collection
+  short_description   String
+  meta_title          String
+  meta_description    String
+  sku                 String
+  primary_category_id String            @db.ObjectId
+  category_ids        String[]          @db.ObjectId
+  slug                String            @unique
+  indexing            Boolean           @default(false)
+  created_at          DateTime          @default(now())
+  updated_at          DateTime          @updatedAt
+  categories          products_category @relation("CategoryProducts", fields: [category_ids], references: [id])
+  primary_category    products_category @relation("PrimaryCategoryProducts", fields: [primary_category_id], references: [id])
+}
+
+model products_category {
+  id               String       @id @default(auto()) @map("_id") @db.ObjectId
+  category_name    String
+  parent_category  String
+  slug             String       @unique
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @updatedAt
+  attributes       attributes[]
+  products         products[]   @relation("CategoryProducts")
+  primary_products products[]   @relation("PrimaryCategoryProducts")
+}
+
+model products_category_link {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  product_id  String @db.ObjectId
+  category_id String @db.ObjectId
+  is_default  String
+}
+
+model attributes {
+  id          String            @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  terms       String[]
+  category_id String            @db.ObjectId
+  created_at  DateTime          @default(now())
+  updated_at  DateTime          @updatedAt
+  category    products_category @relation(fields: [category_id], references: [id], onDelete: Cascade)
+}
+
+model blog {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  title             String
+  short_description String
+  meta_title        String
+  meta_description  String
+  content           String
+  slug              String
+  featured_img      String[]
+  default_image     String
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model certificates {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  meta_description String
+  image            String
+  default_image    String
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+}

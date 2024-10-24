@@ -1,0 +1,136 @@
+<footer class="footer  bg-white pt-5">
+  <div class="container">
+    <div class="row">
+      <!-- Contact Section -->
+      <div class=" col-12 col-md-3 col-lg-3">
+        <div>
+          <h5 class="fw-bold text-wrap footer-heading">Contact</h5>
+          Corporate Office: <br>
+          <p>UPC Instruments Pvt.Ltd,
+           Plot No. 18, <br>Towel Market, Gohana Road, Panipat-132103 (HARYANA)
+          </p>
+          <hr>
+        </div>
+        <div class="row">
+          <div class="col-7 col-md-12 col-lg-12 align-self-center">
+           <h5 class="fw-bold footer-heading">Social Media</h5>
+          <ul class="list-unstyled d-flex">
+              {{!-- <li class="me-3"><img class="social-media-icon" src="{{baseURL}}img/facebook.svg" alt="Facebook"></li>
+              <a href="https://in.linkedin.com/in/ajay-sharma-73b550269"><li class="me-3"><img class="social-media-icon" src="{{baseURL}}img/linkedin.svg" alt="LinkedIn"></li></a>
+              <li class="me-3"><img class="social-media-icon" src="{{baseURL}}img/instagram.svg" alt="Instagram"></li>
+              <li><img class="social-media-icon" src="{{baseURL}}img/youtube.svg" alt="YouTube"></li> --}}
+              <a href="https://in.linkedin.com/in/ajay-sharma-73b550269"><li class="me-2 fs-3"><i class="fa-brands fa-linkedin "></i></li></a>
+              {{!-- <li class="mx-2 fs-3"><i class="fa-brands fa-facebook"></i></li>
+              <li class="mx-2 fs-3"><i class="fa-brands fa-instagram "></i></i></li>
+              <li class="mx-2 fs-3"><i class="fa-brands fa-youtube"></i></li> --}}
+          </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Section -->
+      <div class="col-12 col-md-2 col-lg-2">
+        <div class="row">
+          <div class="col-7 col-md-12 col-lg-12 align-self-center">
+            <h5 class="fw-bold footer-heading">Products</h5>
+            <ul class="list-unstyled">
+              {{#each categories.data}}
+                <li><a href="{{../baseURL}}category/{{this.slug}}">{{baseURL}}{{this.category_name}}</a></li>
+              {{else}}
+              <div class="col-12">
+               <p>No categories available.</p>
+              </div>
+              {{/each}}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Industries Section -->
+      <div class="col-md-2">
+        <div class="row">
+          <div class="col-7 col-md-12 col-lg-12 align-self-center">
+            <h5 class="fw-bold footer-heading">Industries</h5>
+            <ul class="list-unstyled">
+              <li><a href="#">Chemical</a></li>
+              <li><a href="#">Food & Beverage</a></li>
+              <li><a href="#">Life sciences</a></li>
+              <li><a href="#">Marine</a></li>
+              <li><a href="#">Metal & Mining</a></li>
+              <li><a href="#">Nuclear</a></li>
+            </ul>
+          </div>
+          <div class="col-5 col-md-12 col-lg-12 align-self-center">
+            <ul class="list-unstyled">
+              <li><a href="#">Oil & Gas</a></li>
+              <li><a href="#">Pulp & Paper</a></li>
+              <li><a href="#">Water & Wastewater</a></li>
+              <li><a href="#">Sustainable Energies</a></li>
+              <li><a href="#">Power generation</a></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Solutions Section -->
+      <div class="col-md-2">
+        <h5 class="fw-bold footer-heading">Solutions</h5>
+        <ul class="list-unstyled">
+          <li><a href="#">Flow metering solutions</a></li>
+          <li><a href="#">Monitoring solutions</a></li>
+          <li><a href="#">Wireless and remote metering solutions</a></li>
+        </ul>
+      </div>
+
+      <!-- Services Section -->
+      <div class="col-md-2">
+        <div class="row">
+          <div class="col-7 col-md-12 col-lg-12 align-self-center">
+            <h5 class="fw-bold footer-heading">Services</h5>
+            <ul class="list-unstyled">
+              <li><a href="#">Web Applications</a></li>
+              <li><a href="#">Returning meters</a></li>
+              <li><a href="#">Request service technician</a></li>
+              <li><a href="#">Extended Guarantee</a></li>
+              <li><a href="#">International Offshore Support</a></li>
+            </ul>
+          </div>
+          <div class="col-5 col-md-12 col-lg-12 align-self-center">
+            <ul class="list-unstyled">
+              <li><a href="#">Services for solutions</a></li>
+              <li><a href="#">Flowmeter Retrofitting</a></li>
+              <li><a href="#">Training</a></li>
+              <li><a href="#">Video tutorials</a></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+  <div class="footer-bottom  text-white mt-5 pt-3">
+    <div class="container">
+      <div class="row align-items-center">
+
+
+        <!-- Right Column: Social Icons and Links -->
+        <div class=" col-12 col-md-12 col-lg-12">
+          <div class="row">
+            <!-- Links -->
+            <div class="col-12 text-center">
+              <p>Copyright &copy; 2024 UPC Instruments Pvt.Ltd<a href="#" class="ps-2 text-white  "></a>
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</footer>
+</body>
+</html>

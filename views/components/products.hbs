@@ -1,0 +1,79 @@
+<section class="py-5 container">
+     <div>
+          <p>Industries</p>
+          <h2 class="pb-4">Improve your processes with new innovations</h2>
+     </div>
+     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          {{#each categories.data}}
+          <li class="nav-item" role="presentation">
+               <button class="nav-link {{#if @first}}active{{/if}} normal" id="pills-{{this.id}}-tab"
+                    data-bs-toggle="pill" data-bs-target="#pills-{{this.id}}" type="button" role="tab"
+                    aria-controls="pills-{{this.id}}" aria-selected="true">{{this.category_name}}</button>
+          </li>
+          {{else}}
+          <div class="col-12">
+               <p>No categories available.</p>
+          </div>
+          {{/each}}
+     </ul>
+     <div class="tab-content" id="pills-tabContent">
+          {{#each categories.data}}
+          <div class="tab-pane fade {{#if @first}}show active{{/if}}" id="pills-{{this.id}}" role="tabpanel"
+               aria-labelledby="pills-{{this.id}}-tab" tabindex="0">
+               <section class="row">
+                      {{#each (filterAndLimit ../products this.id 3)}}
+                    <div class="col-lg-3 col-sm-6 mt-3 border-0">
+                         <a href="/product/{{this.slug}}" class="clickable-div"
+                              style="text-decoration: none; color: inherit;">
+                              <div class="card border rounded-0 w-100 h-100">
+                                   <div class="cardinner py-4 w-100 h-100">
+                                        <img src="../../public/uploads/{{this.default_image}}"
+                                             class="card-img-top mx-auto rounded-0 d-block mt-3 img-fluid product-dimensions"
+                                             alt="{{this.name}}">
+                                        <div class="card-body mt-3">
+                                             <div>
+                                                  <h5 class="card-title">{{this.name}}</h5>
+                                                  <p class="card-text text-body-secondary mt-3">
+                                                       {{#if (isEmptyValue this.short_description)}}  {{else}}{{this.short_description}}{{/if}}</p>
+                                             </div>
+                                        </div>
+                                   </div>
+                              </div>
+                         </a>
+                    </div>
+                    {{/each}}
+                    {{#unless (any (map ../products 'primary_category_id' this.id))}}
+                    <div class="col-12">
+                         <p>No products available.</p>
+                    </div>
+                    {{/unless}}
+                    <div class="col-lg-3 col-sm-6 mt-3">
+                         <div class="pt-2 border-0 rounded-0 w-100 h-100">
+                              <div class="card-body">
+                                   <a href="{{../baseURL}}category/{{this.slug}}" class="clickable-div"
+                                        style="text-decoration: none; color: inherit;">
+                                        <div class="row">
+                                             <div class="col-10">
+                                                  <h5 class="card-title">New products for the {{this.category_name}}</h5>
+                                                  <p class="card-text">Check out our latest industry launches and
+                                                       innovations for the {{this.category_name}}!</p>
+                                             </div>
+                                             <div class="col-2 text-end align-self-start">
+                                                  <img src="/public/img/arrow-new.svg" alt="Arrow icon">
+                                             </div>
+                                             {{!-- <p>slug:{{this.slug}}</p> --}}
+                                        </div>
+                                   </a>
+                              </div>
+
+                         </div>
+                    </div>
+               </section>
+          </div>
+          {{else}}
+          <div class="col-12">
+               <p>No categories available.</p>
+          </div>
+          {{/each}}
+     </div>
+</section>

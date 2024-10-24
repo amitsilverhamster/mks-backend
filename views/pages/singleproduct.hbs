@@ -1,0 +1,138 @@
+{{> navbar}}
+{{>title}}
+<div class="container">
+    <div class="custom-container container my-5">
+        <div class="row g-4">
+            <!-- Left Column with Card containing the Image -->
+            <div class="col-md-6">
+                <div class="image-container-card d-flex justify-content-center">
+                    <img  src="../../public/uploads/{{product.default_image}}" alt="Vortex Flow Meter" class="img-fluid">
+                </div>
+            </div>
+
+            <!-- Right Column with Product Details -->
+            <div class="col-md-6 pt-2">
+                <span class="custom-product-series"><strong>{{product.sku}}</strong></span>
+                <p class="custom-product-description">
+                    {{product.short_description}} <br><br>
+                     <span class="spec-label">specifications</span>:{{product.specifications}}
+                    <br>
+                    <span class="spec-label">Size</span>: 15mm to 300mm<br>
+                    <span class="spec-label">Max Pressure</span>: 16 Bar<br>
+                    <span class="spec-label">Display</span>: InBuilt LCD Display<br>
+                    <span class="spec-label">Process Temp.</span>: less than 250 Degree Celsius <br>
+                    <span class="spec-label">Power Supply</span>: 230VAC For Mee Inlet Steam <br>
+                    <span class="spec-label">Accuracy</span>: +1.0% <br>
+                    <span class="spec-label">Output</span>: 4-20mA/RS485<br>
+                    <span class="spec-label">Connection</span>: Wafer Type<br>
+                    <span class="spec-label">Principle of measure</span>: Vortex Method with pressure<br>
+                    <span class="spec-label">Application</span>: Steam(Air), Water
+                </p>
+                <div class="pt-3">
+                    {{> button text="Download Brochure" model="modal" target="#brochureModal" }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="container features-section mt-5">
+        <h2 class="custom-features-title">Description</h2>
+        <div class="row">
+            <p>{{product.description}}.</p>
+        </div>
+    </div>
+    {{!-- related products --}}
+    <div class="container my-5">
+        <h2>Related Products</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 pt-3">
+            <div class="col">
+                <a href="#" class="card-link">
+                    <div class="card h-100 text-center">
+                        <div class="product-img-wrapper">
+                            <img src="/public/img/insertion Flow meter.webp" class="card-img-top" alt="Product 1">
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted mb-1 model">UPCI-MAG-113</p>
+                            <p class="card-title fw-bold ">Insertion Type Electromagnetic Flow Meter</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="#" class="card-link">
+                    <div class="card h-100 text-center">
+                        <div class="product-img-wrapper">
+                            <img src="/public/img/multijetwatermeter Hot.webp" class="card-img-top" alt="Product 2">
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted mb-1 model">UPC-MJTH-112</p>
+                            <p class="card-title fw-bold ">Multijet Water Meter Hot</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="#" class="card-link">
+                    <div class="card h-100 text-center">
+                        <div class="product-img-wrapper">
+                            <img src="/public/img/multijetwatermeter.webp" class="card-img-top" alt="Product 3">
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted mb-1 model">UPC-MJTC-112</p>
+                            <p class="card-title fw-bold ">Multijet Water Meter Cold</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="#" class="card-link">
+                    <div class="card h-100 text-center">
+                        <div class="product-img-wrapper">
+                            <img src="/public/img/ULTRASONIC WATER METER1.webp" class="card-img-top" alt="Product 4">
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted mb-1 model">UPC-UWM-220</p>
+                            <p class="card-title fw-bold ">Ultrasonic Water Meter</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="brochureModal" tabindex="-1" aria-labelledby="brochureModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="brochureModalLabel">Download Brochure</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="brochureForm">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Mobile Number</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="Enter your mobile number"
+                            required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{> footer}}
