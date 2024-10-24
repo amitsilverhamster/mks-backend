@@ -32,36 +32,50 @@ model user_types {
 }
 
 model products {
-  id                  String            @id @default(auto()) @map("_id") @db.ObjectId
-  name                String
-  description         String?
-  specifications      String?
-  images              String[] // Array of image URLs
-  default_image       String // Field for the default image URL // Array of ObjectId references to the products_category collection
-  short_description   String
-  meta_title          String
-  meta_description    String
-  sku                 String
-  primary_category_id String            @db.ObjectId
-  category_ids        String[]          @db.ObjectId
-  slug                String            @unique
-  indexing            Boolean           @default(false)
-  created_at          DateTime          @default(now())
-  updated_at          DateTime          @updatedAt
-  categories          products_category @relation("CategoryProducts", fields: [category_ids], references: [id])
-  primary_category    products_category @relation("PrimaryCategoryProducts", fields: [primary_category_id], references: [id])
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  description       String?
+  images            String[] // Array of image URLs
+  default_image     String 
+  short_description String
+  slug              String   @unique
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model banners {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  subtitle         String?
+  backgroundimages String[] // Array of image URLs
+  default_image    String 
+  button_text      String
+  button_url       String   @unique
+  Order_By         Int      @unique
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+}
+
+model projects {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  description       String?
+  images            String[] // Array of image URLs
+  default_image     String // Field for the default image URL // Array of ObjectId references to the products_category collection
+  short_description String
+  slug              String   @unique
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
 }
 
 model products_category {
-  id               String       @id @default(auto()) @map("_id") @db.ObjectId
-  category_name    String
-  parent_category  String
-  slug             String       @unique
-  created_at       DateTime     @default(now())
-  updated_at       DateTime     @updatedAt
-  attributes       attributes[]
-  products         products[]   @relation("CategoryProducts")
-  primary_products products[]   @relation("PrimaryCategoryProducts")
+  id              String       @id @default(auto()) @map("_id") @db.ObjectId
+  category_name   String
+  parent_category String
+  slug            String       @unique
+  created_at      DateTime     @default(now())
+  updated_at      DateTime     @updatedAt
+  attributes      attributes[]
 }
 
 model products_category_link {

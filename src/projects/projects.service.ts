@@ -1,15 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateProjectDto } from './dto/create-project.dto';
+import { UpdateProjectDto } from './dto/update-project.dto';
 import { readdir, rmdir, unlink } from 'fs';
 import { join } from 'path';
 
+
 @Injectable()
-export class ProductsService {
+export class ProjectsService {
   constructor(private prisma: PrismaService) { }
 
-  async create(data: CreateProductDto, files: Express.Multer.File[]) {
+  async create(data: CreateProjectDto, files: Express.Multer.File[]) {
     if (!files || files.length === 0) {
       console.error('No files uploaded or files array is empty');
       throw new Error('No files uploaded');
@@ -38,22 +39,22 @@ export class ProductsService {
 
     console.log('Image paths:', imagePaths);
 
-    // Convert the product name into a slug
+    // Convert the project name into a slug
     const slug = data.name.toLowerCase().replace(/ /g, '-');
-    const productData = {
+    const projectData = {
       ...data,
       images: imagePaths,
       default_image: imagePaths[0] || '', // Set the first image as the default
-      slug, // Set the product slug
+      slug, // Set the project slug
     };
 
-    return this.prisma.products.create({
-      data: productData,
+    return this.prisma.projects.create({
+      data: projectData,
     });
   }
 
   async findAll() {
-    const products = await this.prisma.products.findMany({           
+    const projects = await this.prisma.projects.findMany({           
       orderBy: {
         created_at: 'desc', // Change 'createdAt' to the field you want to sort by (e.g., 'price', 'id')
       },
@@ -61,26 +62,26 @@ export class ProductsService {
 
     return {
       status: 'success',
-      data: products,
+      data: projects,
     };
   }
 
   async findOne(id: string) {
-    const productById = await this.prisma.products.findUnique({
+    const projectById = await this.prisma.projects.findUnique({
       where: { id },
     });
-    if (!productById) {
-      throw new NotFoundException('productById not found');
+    if (!projectById) {
+      throw new NotFoundException('projectById not found');
     }
 
     return {
       status: 'success',
-      data: productById,
+      data: projectById,
     };
   }
 
-  async update(id: string, data: UpdateProductDto, files?: Express.Multer.File[]) {
-    const existingProduct = await this.prisma.products.findUnique({ where: { id } });
+  async update(id: string, data: UpdateProjectDto, files?: Express.Multer.File[]) {
+    const existingProject = await this.prisma.projects.findUnique({ where: { id } });
 
     if (files && files.length > 0) {
       const images = files.map((file) => {
@@ -105,7 +106,7 @@ export class ProductsService {
       console.log('Updated Image paths:', imagePaths);
 
       // Optional: Remove old images if necessary
-      existingProduct.images.forEach((image) => {
+      existingProject.images.forEach((image) => {
         unlink(join(__dirname, '..', '..', 'public', image), (err) => {
           if (err) {
             console.error(`Error deleting image: ${image}`, err);
@@ -118,26 +119,26 @@ export class ProductsService {
         ...data,
         images: imagePaths,
         default_image: imagePaths[0] || '', // Optionally update the default image
-        slug, // Set the product slug
+        slug, // Set the project slug
       };
     }
 
-    return this.prisma.products.update({
+    return this.prisma.projects.update({
       where: { id },
       data,
     });
   }
 
   async remove(id: string) {
-    const existingProduct = await this.prisma.products.findUnique({ where: { id } });
+    const existingProject = await this.prisma.projects.findUnique({ where: { id } });
 
-    if (!existingProduct) {
-      throw new NotFoundException('Product not found');
+    if (!existingProject) {
+      throw new NotFoundException('Project not found');
     }
 
     // Remove associated images
     const imageFolderPath = join(__dirname, '..', '..', 'public', 'uploads');
-    const imagePaths = existingProduct.images.map(image => join(imageFolderPath, image));
+    const imagePaths = existingProject.images.map(image => join(imageFolderPath, image));
 
     for (const imagePath of imagePaths) {
       await this.deleteFile(imagePath);
@@ -146,10 +147,10 @@ export class ProductsService {
     // Check if the folder is empty and delete it if it is
     await this.deleteFolderIfEmpty(imageFolderPath);
 
-    // Delete the product from the database
-    await this.prisma.products.delete({ where: { id } });
+    // Delete the project from the database
+    await this.prisma.projects.delete({ where: { id } });
 
-    return { message: 'Product and associated images deleted successfully' };
+    return { message: 'Project and associated images deleted successfully' };
   }
 
   private deleteFile(filePath: string): Promise<void> {

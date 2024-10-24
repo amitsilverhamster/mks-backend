@@ -1,20 +1,20 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, Query } from '@nestjs/common';
-import { ProductsService } from './products.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { ProjectsService } from './projects.service';
+import { CreateProjectDto } from './dto/create-project.dto';
+import { UpdateProjectDto } from './dto/update-project.dto';
 import { ApiTags, ApiResponse, ApiBody, ApiOperation, ApiConsumes } from '@nestjs/swagger';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from '../multer.config';
 
-@ApiTags('Products')
-@Controller('products')
-export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+@ApiTags('Projects')
+@Controller('projects')
+export class ProjectsController {
+  constructor(private readonly projectsService: ProjectsService) {}
 
   @Post()
   @UseInterceptors(FileFieldsInterceptor([{ name: 'images', maxCount: 10 }], multerOptions))
   @ApiConsumes('multipart/form-data')
-  @ApiOperation({ summary: 'Create a new product' })
+  @ApiOperation({ summary: 'Create a new project' })
   @ApiBody({
     schema: {
       type: 'object',
@@ -33,31 +33,31 @@ export class ProductsController {
       },
     },
   })
-  async create(@Body() createProductDto: CreateProductDto, @UploadedFiles() files: { images?: Express.Multer.File[] }) {
+  async create(@Body() createProjectDto: CreateProjectDto, @UploadedFiles() files: { images?: Express.Multer.File[] }) {
     console.log('Files received:', files); // Log the received files to check if they exist
     if (!files || !files.images) {
       throw new Error('No images uploaded');
     }
 
-    return this.productsService.create(createProductDto, files.images);
+    return this.projectsService.create(createProjectDto, files.images);
   }
 
   @Get()
-  @ApiResponse({ status: 200, description: 'Returns all products.' })
+  @ApiResponse({ status: 200, description: 'Returns all projects.' })
   findAll() {
-    return this.productsService.findAll();
+    return this.projectsService.findAll();
   }
 
   @Get('edit/:id')
-  @ApiResponse({ status: 200, description: 'Returns the product with the given id.' })
+  @ApiResponse({ status: 200, description: 'Returns the project with the given id.' })
   findOne(@Param('id') id: string) {
-    return this.productsService.findOne(id);
+    return this.projectsService.findOne(id);
   }
 
   @Patch(':id')
   @UseInterceptors(FileFieldsInterceptor([{ name: 'images', maxCount: 10 }], multerOptions))
   @ApiConsumes('multipart/form-data')
-  @ApiOperation({ summary: 'update a new product' })
+  @ApiOperation({ summary: 'update a new project' })
   @ApiBody({
     schema: {
       type: 'object',
@@ -76,14 +76,14 @@ export class ProductsController {
       },
     },
   })
-  async update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto, @UploadedFiles() files: { images?: Express.Multer.File[] }) {
+  async update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto, @UploadedFiles() files: { images?: Express.Multer.File[] }) {
     console.log('Files received for update:', files); // Log for update as well
-    return this.productsService.update(id, updateProductDto, files?.images);
+    return this.projectsService.update(id, updateProjectDto, files?.images);
   }
 
   @Delete(':id')
-  @ApiResponse({ status: 200, description: 'Removes the product with the given id.' })
+  @ApiResponse({ status: 200, description: 'Removes the project with the given id.' })
   remove(@Param('id') id: string) {
-    return this.productsService.remove(id);
+    return this.projectsService.remove(id);
   }
 }

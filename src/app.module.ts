@@ -13,12 +13,12 @@ import { ProductsCategoryModule } from './products_category/products_category.mo
 import { AttributeModule } from './attribute/attribute.module';
 import { CertificatesModule } from './certificates/certificates.module';
 import { BlogModule } from './blog/blog.module';
-import { PublicapiModule } from './publicapi/publicapi.module';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config'; // Import ConfigModule for environment variable management
 import { MailerModule } from './mailer/mailer.module';
+import { ProjectsModule } from './projects/projects.module';
 
 @Module({
   imports: [
@@ -41,7 +41,7 @@ import { MailerModule } from './mailer/mailer.module';
     AttributeModule,
     CertificatesModule,
     BlogModule,
-    PublicapiModule,HttpModule, MailerModule
+    HttpModule, MailerModule, ProjectsModule
     // other modules
   ],
   

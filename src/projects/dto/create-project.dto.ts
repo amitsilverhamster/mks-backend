@@ -1,10 +1,8 @@
-// src/products/dto/update-product.dto.ts
-import { PartialType } from '@nestjs/mapped-types';
+// src/products/dto/create-product.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateProductDto } from './create-product.dto';
+import { IsBoolean } from 'class-validator';
 
-export class UpdateProductDto extends PartialType(CreateProductDto) {
-
+export class CreateProjectDto {
   @ApiProperty({ example: 'Product Name' })
   name: string;
   @ApiProperty({ example: 'This is a product description', required: false })
@@ -20,5 +18,6 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {
 
   @ApiProperty({ example: 'product-slug', uniqueItems: true })
   slug: string;
+
 
 }

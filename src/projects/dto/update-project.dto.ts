@@ -1,9 +1,9 @@
 // src/products/dto/update-product.dto.ts
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateProductDto } from './create-product.dto';
+import { CreateProjectDto } from './create-project.dto';
 
-export class UpdateProductDto extends PartialType(CreateProductDto) {
+export class UpdateProjectDto extends PartialType(CreateProjectDto) {
 
   @ApiProperty({ example: 'Product Name' })
   name: string;
