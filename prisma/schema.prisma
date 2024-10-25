@@ -30,7 +30,14 @@ model user_types {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
-
+// mks
+model menus {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  slug       String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
 model products {
   id                String   @id @default(auto()) @map("_id") @db.ObjectId
   name              String
@@ -67,7 +74,7 @@ model projects {
   created_at        DateTime @default(now())
   updated_at        DateTime @updatedAt
 }
-
+// mks
 model products_category {
   id              String       @id @default(auto()) @map("_id") @db.ObjectId
   category_name   String

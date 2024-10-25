@@ -20,6 +20,7 @@ import { ConfigModule } from '@nestjs/config'; // Import ConfigModule for enviro
 import { MailerModule } from './mailer/mailer.module';
 import { ProjectsModule } from './projects/projects.module';
 import { BannersModule } from './banners/banners.module';
+import { MenusModule } from './menus/menus.module';
 
 @Module({
   imports: [
@@ -42,7 +43,7 @@ import { BannersModule } from './banners/banners.module';
     AttributeModule,
     CertificatesModule,
     BlogModule,
-    HttpModule, MailerModule, ProjectsModule, BannersModule
+    HttpModule, MailerModule, ProjectsModule, BannersModule, MenusModule
     // other modules
   ],
   
