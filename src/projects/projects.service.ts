@@ -40,7 +40,7 @@ export class ProjectsService {
     console.log('Image paths:', imagePaths);
 
     // Convert the project name into a slug
-    const slug = data.name.toLowerCase().replace(/ /g, '-');
+    const slug = data.slug.toLowerCase().replace(/ /g, '-');
     const projectData = {
       ...data,
       images: imagePaths,
@@ -113,7 +113,7 @@ export class ProjectsService {
           }
         });
       });
-      const slug = data.name.toLowerCase().replace(/ /g, '-');
+      const slug = data.slug.toLowerCase().replace(/ /g, '-');
 
       data = {
         ...data,

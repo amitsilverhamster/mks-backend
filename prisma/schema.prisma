@@ -47,7 +47,7 @@ model banners {
   id               String   @id @default(auto()) @map("_id") @db.ObjectId
   title            String
   subtitle         String?
-  backgroundimages String[] // Array of image URLs
+  background_images String[] // Array of image URLs
   default_image    String 
   button_text      String
   button_url       String   @unique

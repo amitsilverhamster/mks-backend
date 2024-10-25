@@ -1,21 +1,22 @@
+// src/banners/banners.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateBannerDto } from './dto/create-banner.dto';
+import { UpdateBannerDto } from './dto/update-banner.dto';
 import { readdir, rmdir, unlink } from 'fs';
 import { join } from 'path';
 
 @Injectable()
-export class ProductsService {
-  constructor(private prisma: PrismaService) { }
+export class BannersService {
+  constructor(private prisma: PrismaService) {}
 
-  async create(data: CreateProductDto, files: Express.Multer.File[]) {
+  async create(data: CreateBannerDto, files: Express.Multer.File[]) {
     if (!files || files.length === 0) {
       console.error('No files uploaded or files array is empty');
       throw new Error('No files uploaded');
     }
 
-    const images = files.map((file) => {
+    const background_Images = files.map((file) => {
       if (!file.path) {
         console.error('File path is undefined for file:', file);
         throw new Error('File path is undefined');
@@ -25,65 +26,70 @@ export class ProductsService {
       };
     });
 
-    // Extract paths based on the year/month/day structure
-    const imagePaths = images.map((image) => {
-      // Get year/month/day/filename from the image path
+    const imagePaths = background_Images.map((image) => {
       const parts = image.path.split('/');
-      const year = parts[parts.length - 4]; // Year
-      const month = parts[parts.length - 3]; // Month
-      const day = parts[parts.length - 2]; // Day
-      const filename = parts[parts.length - 1]; // Get the filename
+      const year = parts[parts.length - 4];
+      const month = parts[parts.length - 3];
+      const day = parts[parts.length - 2];
+      const filename = parts[parts.length - 1];
       return `${year}/${month}/${day}/${filename}`.toLowerCase().replace(/ /g, '-');
     });
 
-    console.log('Image paths:', imagePaths);
+    console.log('Background image paths:', imagePaths);
+    const button_url = data.button_url.toLowerCase().replace(/ /g, '-');
 
-    // Convert the product name into a slug
-    const slug = data.slug.toLowerCase().replace(/ /g, '-');
-    const productData = {
+    const bannerData = {
       ...data,
-      images: imagePaths,
+      background_images: imagePaths,
       default_image: imagePaths[0] || '', // Set the first image as the default
-      slug, // Set the product slug
+      Order_By: Number(data.Order_By),
+      button_url: button_url,
+
     };
 
-    return this.prisma.products.create({
-      data: productData,
+    return this.prisma.banners.create({
+      data: bannerData,
     });
   }
 
   async findAll() {
-    const products = await this.prisma.products.findMany({           
+    const banners = await this.prisma.banners.findMany({
       orderBy: {
-        created_at: 'desc', // Change 'createdAt' to the field you want to sort by (e.g., 'price', 'id')
+        Order_By: 'asc',
       },
     });
 
     return {
       status: 'success',
-      data: products,
+      data: banners,
     };
   }
 
   async findOne(id: string) {
-    const productById = await this.prisma.products.findUnique({
+    const banner = await this.prisma.banners.findUnique({
       where: { id },
     });
-    if (!productById) {
-      throw new NotFoundException('productById not found');
+    if (!banner) {
+      throw new NotFoundException('Banner not found');
     }
 
     return {
       status: 'success',
-      data: productById,
+      data: banner,
     };
   }
 
-  async update(id: string, data: UpdateProductDto, files?: Express.Multer.File[]) {
-    const existingProduct = await this.prisma.products.findUnique({ where: { id } });
+  async update(id: string, data: UpdateBannerDto, files?: Express.Multer.File[]) {
+    const existingBanner = await this.prisma.banners.findUnique({ where: { id } });
+        const button_url = data.button_url.toLowerCase().replace(/ /g, '-');
+
+
+    if (!existingBanner) {
+      throw new NotFoundException('Banner not found');
+    }
 
     if (files && files.length > 0) {
-      const images = files.map((file) => {
+      const backgroundImages = files.map((file) => {
         if (!file.path) {
           console.error('File path is undefined for file:', file);
           throw new Error('File path is undefined');
@@ -93,7 +99,7 @@ export class ProductsService {
         };
       });
 
-      const imagePaths = images.map((image) => {
+      const imagePaths = backgroundImages.map((image) => {
         const parts = image.path.split('/');
         const year = parts[parts.length - 4];
         const month = parts[parts.length - 3];
@@ -101,55 +107,55 @@ export class ProductsService {
         const filename = parts[parts.length - 1];
         return `${year}/${month}/${day}/${filename}`.toLowerCase().replace(/ /g, '-');
       });
+      const button_url = data.button_url.toLowerCase().replace(/ /g, '-');
 
-      console.log('Updated Image paths:', imagePaths);
+      console.log('Updated background image paths:', imagePaths);
 
       // Optional: Remove old images if necessary
-      existingProduct.images.forEach((image) => {
+      existingBanner.background_images.forEach((image) => {
         unlink(join(__dirname, '..', '..', 'public', image), (err) => {
           if (err) {
             console.error(`Error deleting image: ${image}`, err);
           }
         });
       });
-      const slug = data.slug.toLowerCase().replace(/ /g, '-');
 
       data = {
         ...data,
-        images: imagePaths,
+        background_images: imagePaths,
         default_image: imagePaths[0] || '', // Optionally update the default image
-        slug, // Set the product slug
+        Order_By: Number(data.Order_By),
+        button_url: button_url,
+
       };
     }
 
-    return this.prisma.products.update({
+    return this.prisma.banners.update({
       where: { id },
       data,
     });
   }
 
   async remove(id: string) {
-    const existingProduct = await this.prisma.products.findUnique({ where: { id } });
+    const existingBanner = await this.prisma.banners.findUnique({ where: { id } });
 
-    if (!existingProduct) {
-      throw new NotFoundException('Product not found');
+    if (!existingBanner) {
+      throw new NotFoundException('Banner not found');
     }
 
     // Remove associated images
     const imageFolderPath = join(__dirname, '..', '..', 'public', 'uploads');
-    const imagePaths = existingProduct.images.map(image => join(imageFolderPath, image));
+    const imagePaths = existingBanner.background_images.map(image => join(imageFolderPath, image));
 
     for (const imagePath of imagePaths) {
       await this.deleteFile(imagePath);
     }
 
-    // Check if the folder is empty and delete it if it is
     await this.deleteFolderIfEmpty(imageFolderPath);
 
-    // Delete the product from the database
-    await this.prisma.products.delete({ where: { id } });
+    await this.prisma.banners.delete({ where: { id } });
 
-    return { message: 'Product and associated images deleted successfully' };
+    return { message: 'Banner and associated images deleted successfully' };
   }
 
   private deleteFile(filePath: string): Promise<void> {

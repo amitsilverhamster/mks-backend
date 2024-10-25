@@ -19,6 +19,7 @@ import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config'; // Import ConfigModule for environment variable management
 import { MailerModule } from './mailer/mailer.module';
 import { ProjectsModule } from './projects/projects.module';
+import { BannersModule } from './banners/banners.module';
 
 @Module({
   imports: [
@@ -41,7 +42,7 @@ import { ProjectsModule } from './projects/projects.module';
     AttributeModule,
     CertificatesModule,
     BlogModule,
-    HttpModule, MailerModule, ProjectsModule
+    HttpModule, MailerModule, ProjectsModule, BannersModule
     // other modules
   ],
   
