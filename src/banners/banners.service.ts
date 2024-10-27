@@ -79,61 +79,59 @@ export class BannersService {
     };
   }
 
-  async update(id: string, data: UpdateBannerDto, files?: Express.Multer.File[]) {
-    const existingBanner = await this.prisma.banners.findUnique({ where: { id } });
-        const button_url = data.button_url.toLowerCase().replace(/ /g, '-');
-
-
-    if (!existingBanner) {
-      throw new NotFoundException('Banner not found');
-    }
-
-    if (files && files.length > 0) {
-      const backgroundImages = files.map((file) => {
-        if (!file.path) {
-          console.error('File path is undefined for file:', file);
-          throw new Error('File path is undefined');
-        }
-        return {
-          path: file.path.replace(/\\/g, '/'), // Convert backslashes to forward slashes for URLs
-        };
-      });
-
-      const imagePaths = backgroundImages.map((image) => {
-        const parts = image.path.split('/');
-        const year = parts[parts.length - 4];
-        const month = parts[parts.length - 3];
-        const day = parts[parts.length - 2];
-        const filename = parts[parts.length - 1];
-        return `${year}/${month}/${day}/${filename}`.toLowerCase().replace(/ /g, '-');
-      });
-      const button_url = data.button_url.toLowerCase().replace(/ /g, '-');
-
-      console.log('Updated background image paths:', imagePaths);
-
-      // Optional: Remove old images if necessary
-      existingBanner.background_images.forEach((image) => {
-        unlink(join(__dirname, '..', '..', 'public', image), (err) => {
-          if (err) {
-            console.error(`Error deleting image: ${image}`, err);
-          }
-        });
-      });
-
-      data = {
-        ...data,
-        background_images: imagePaths,
-        default_image: imagePaths[0] || '', // Optionally update the default image
-        Order_By: Number(data.Order_By),
-        button_url: button_url,
-
+   async update(id: string, data: UpdateBannerDto, files?: Express.Multer.File[]) {
+      const existingBanner = await this.prisma.banners.findUnique({ where: { id } });
+  
+      if (!existingBanner) {
+          throw new NotFoundException('Banner not found');
+      }
+  
+      let imagePaths = existingBanner.background_images;
+  
+      if (files && files.length > 0) {
+          const backgroundImages = files.map((file) => {
+              if (!file.path) {
+                  console.error('File path is undefined for file:', file);
+                  throw new Error('File path is undefined');
+              }
+              return {
+                  path: file.path.replace(/\\/g, '/'), // Convert backslashes to forward slashes for URLs
+              };
+          });
+  
+          imagePaths = backgroundImages.map((image) => {
+              const parts = image.path.split('/');
+              const year = parts[parts.length - 4];
+              const month = parts[parts.length - 3];
+              const day = parts[parts.length - 2];
+              const filename = parts[parts.length - 1];
+              return `${year}/${month}/${day}/${filename}`.toLowerCase().replace(/ /g, '-');
+          });
+  
+          console.log('Updated background image paths:', imagePaths);
+  
+          // Optional: Remove old images if necessary
+          existingBanner.background_images.forEach((image) => {
+              unlink(join(__dirname, '..', '..', 'public', image), (err) => {
+                  if (err) {
+                      console.error(`Error deleting image: ${image}`, err);
+                  }
+              });
+          });
+      }
+  
+      const updatedData = {
+          ...data,
+          background_images: imagePaths,
+          default_image: imagePaths[0] || existingBanner.default_image, // Optionally update the default image
+          Order_By: data.Order_By !== undefined ? Number(data.Order_By) : existingBanner.Order_By,
+          button_url: data.button_url ? data.button_url.toLowerCase().replace(/ /g, '-') : existingBanner.button_url,
       };
-    }
-
-    return this.prisma.banners.update({
-      where: { id },
-      data,
-    });
+  
+      return this.prisma.banners.update({
+          where: { id },
+          data: updatedData,
+      });
   }
 
   async remove(id: string) {
