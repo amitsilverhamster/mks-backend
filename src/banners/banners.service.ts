@@ -8,6 +8,9 @@ import { join } from 'path';
 
 @Injectable()
 export class BannersService {
+  findSome() {
+    throw new Error('Method not implemented.');
+  }
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateBannerDto, files: Express.Multer.File[]) {
@@ -146,9 +149,14 @@ export class BannersService {
     const imagePaths = existingBanner.background_images.map(image => join(imageFolderPath, image));
 
     for (const imagePath of imagePaths) {
-      await this.deleteFile(imagePath);
+      try {
+        await this.deleteFile(imagePath);
+      } catch (error) {
+        if (error.code !== 'ENOENT') {
+          throw error; // Re-throw if it's not a "file not found" error
+        }
+      }
     }
-
     await this.deleteFolderIfEmpty(imageFolderPath);
 
     await this.prisma.banners.delete({ where: { id } });

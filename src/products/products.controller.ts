@@ -47,6 +47,11 @@ export class ProductsController {
   findAll() {
     return this.productsService.findAll();
   }
+  @Get('/getProducts')
+  @ApiResponse({ status: 200, description: 'Returns some products.' })
+  findSome() {
+    return this.productsService.findSome();
+  }
 
   @Get('edit/:id')
   @ApiResponse({ status: 200, description: 'Returns the product with the given id.' })

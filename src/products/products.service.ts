@@ -65,6 +65,21 @@ export class ProductsService {
     };
   }
 
+  // forntend api
+   async findSome() {
+      const products = await this.prisma.products.findMany({           
+        orderBy: {
+          created_at: 'desc', // Change 'createdAt' to the field you want to sort by (e.g., 'price', 'id')
+        },
+        take: 3, // Limit the number of products to 3
+      });
+  
+      return {
+        status: 'success',
+        data: products,
+      };
+    }
+
   async findOne(id: string) {
     const productById = await this.prisma.products.findUnique({
       where: { id },
@@ -82,8 +97,10 @@ export class ProductsService {
   async update(id: string, data: UpdateProductDto, files?: Express.Multer.File[]) {
     const existingProduct = await this.prisma.products.findUnique({ where: { id } });
 
+    let imagePaths = existingProduct.images || [];
+
     if (files && files.length > 0) {
-      const images = files.map((file) => {
+      const newImages = files.map((file) => {
         if (!file.path) {
           console.error('File path is undefined for file:', file);
           throw new Error('File path is undefined');
@@ -92,8 +109,9 @@ export class ProductsService {
           path: file.path.replace(/\\/g, '/'), // Convert backslashes to forward slashes for URLs
         };
       });
+  
 
-      const imagePaths = images.map((image) => {
+      const newImagePaths = newImages.map((image) => {
         const parts = image.path.split('/');
         const year = parts[parts.length - 4];
         const month = parts[parts.length - 3];
@@ -103,7 +121,7 @@ export class ProductsService {
       });
 
       console.log('Updated Image paths:', imagePaths);
-
+      imagePaths = imagePaths.concat(newImagePaths);
       // Optional: Remove old images if necessary
       existingProduct.images.forEach((image) => {
         unlink(join(__dirname, '..', '..', 'public', image), (err) => {
@@ -140,7 +158,13 @@ export class ProductsService {
     const imagePaths = existingProduct.images.map(image => join(imageFolderPath, image));
 
     for (const imagePath of imagePaths) {
-      await this.deleteFile(imagePath);
+      try {
+        await this.deleteFile(imagePath);
+      } catch (error) {
+        if (error.code !== 'ENOENT') {
+          throw error; // Re-throw if it's not a "file not found" error
+        }
+      }
     }
 
     // Check if the folder is empty and delete it if it is
