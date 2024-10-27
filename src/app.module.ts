@@ -21,6 +21,7 @@ import { MailerModule } from './mailer/mailer.module';
 import { ProjectsModule } from './projects/projects.module';
 import { BannersModule } from './banners/banners.module';
 import { MenusModule } from './menus/menus.module';
+import { IndustriesModule } from './industries/industries.module';
 
 @Module({
   imports: [
@@ -43,7 +44,7 @@ import { MenusModule } from './menus/menus.module';
     AttributeModule,
     CertificatesModule,
     BlogModule,
-    HttpModule, MailerModule, ProjectsModule, BannersModule, MenusModule
+    HttpModule, MailerModule, ProjectsModule, BannersModule, MenusModule, IndustriesModule
     // other modules
   ],
   

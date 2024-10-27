@@ -136,21 +136,7 @@ export class AppController {
      
     };
   }
-  @Get('/industries')
-  @ApiExcludeEndpoint()
-  @Render('pages/industries')
-  industries() {
-    const breadcrumbs = [
-      { label: 'Home', url: '/', active: false },
-      { label: 'industries', url: '/industries', active: true },
-    ];
-
-    return {
-      title: 'Industries',
-      imageSrc: '/public/img/working man4.webp', // Update with your actual product image path
-      breadcrumbs: breadcrumbs,
-    };
-  }
+  
   @Get('/career')
   @ApiExcludeEndpoint()
   @Render('pages/career')

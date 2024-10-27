@@ -30,6 +30,7 @@ model user_types {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
+
 // mks
 model menus {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -38,29 +39,39 @@ model menus {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
+
 model products {
   id                String   @id @default(auto()) @map("_id") @db.ObjectId
   name              String
   description       String?
   images            String[] // Array of image URLs
-  default_image     String 
+  default_image     String
   short_description String
   slug              String   @unique
   created_at        DateTime @default(now())
   updated_at        DateTime @updatedAt
 }
 
+model industries {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  images        String[] // Array of image URLs
+  default_image String
+  slug          String   @unique
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
 model banners {
-  id               String   @id @default(auto()) @map("_id") @db.ObjectId
-  title            String
-  subtitle         String?
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  title             String
+  subtitle          String?
   background_images String[] // Array of image URLs
-  default_image    String 
-  button_text      String
-  button_url       String   @unique
-  Order_By         Int      @unique
-  created_at       DateTime @default(now())
-  updated_at       DateTime @updatedAt
+  default_image     String
+  button_text       String
+  button_url        String   @unique
+  Order_By          Int      @unique
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
 }
 
 model projects {
@@ -74,6 +85,7 @@ model projects {
   created_at        DateTime @default(now())
   updated_at        DateTime @updatedAt
 }
+
 // mks
 model products_category {
   id              String       @id @default(auto()) @map("_id") @db.ObjectId
