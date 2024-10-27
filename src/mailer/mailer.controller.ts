@@ -13,10 +13,10 @@ export class MailerController {
   @ApiResponse({ status: 201, description: 'mail successfully send.' })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   async sendEmail(@Body() formData: any) {
-    const { firstName, lastName, email, phone, company, country, product, investorType, helpMessage } = formData;
+    const { name, email, subject, message } = formData;
     const dto: sendMailDto = {
       from: { name: 'Admin', address: 'adim@example.com' },
-      recipients: [{ name: `${firstName} ${lastName}`, address: email }],
+      recipients: [{ name: `${name}`, address: email }],
       subject: 'New Contact Form Submission',
       html: `
       <html xmlns="http://www.w3.org/1999/xhtml">
@@ -480,42 +480,22 @@ export class MailerController {
             <th style="border: 1px solid #ddd; padding: 8px;">Value</th>
           </tr>
           <tr>
-            <td style="border: 1px solid #ddd; padding: 8px;"><strong>First Name</strong></td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${firstName}</td>
-          </tr>
-          <tr>
-            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Last Name</strong></td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${lastName}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><strong> Name</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${name}</td>
           </tr>
           <tr>
             <td style="border: 1px solid #ddd; padding: 8px;"><strong>Email</strong></td>
             <td style="border: 1px solid #ddd; padding: 8px;">${email}</td>
           </tr>
           <tr>
-            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Phone</strong></td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${phone}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Subject</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${subject}</td>
           </tr>
           <tr>
-            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Company</strong></td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${company}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Message</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${message}</td>
           </tr>
-          <tr>
-            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Country</strong></td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${country}</td>
-          </tr>
-          <tr>
-            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Product Interested</strong></td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${product}</td>
-          </tr>
-          <tr>
-            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Investor Type</strong></td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${investorType}</td>
-          </tr>
-          <tr>
-            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Help Message</strong></td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${helpMessage}</td>
-          </tr>
-                              </table>
+                                        </table>
                             </td>
                           </tr>
                      </table>

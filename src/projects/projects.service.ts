@@ -65,6 +65,19 @@ export class ProjectsService {
       data: projects,
     };
   }
+  async findSome() {
+    const projects = await this.prisma.projects.findMany({           
+      orderBy: {
+        created_at: 'desc', // Change 'createdAt' to the field you want to sort by (e.g., 'price', 'id')
+      },
+      take: 3, // Limit the number of projects to 3
+    });
+
+    return {
+      status: 'success',
+      data: projects,
+    };
+  }
 
   async findOne(id: string) {
     const projectById = await this.prisma.projects.findUnique({
@@ -82,9 +95,10 @@ export class ProjectsService {
 
   async update(id: string, data: UpdateProjectDto, files?: Express.Multer.File[]) {
     const existingProject = await this.prisma.projects.findUnique({ where: { id } });
+    let imagePaths = existingProject.images || [];
 
     if (files && files.length > 0) {
-      const images = files.map((file) => {
+      const newImages = files.map((file) => {
         if (!file.path) {
           console.error('File path is undefined for file:', file);
           throw new Error('File path is undefined');
@@ -94,7 +108,7 @@ export class ProjectsService {
         };
       });
 
-      const imagePaths = images.map((image) => {
+      const newImagePaths = newImages.map((image) => {
         const parts = image.path.split('/');
         const year = parts[parts.length - 4];
         const month = parts[parts.length - 3];
@@ -102,7 +116,7 @@ export class ProjectsService {
         const filename = parts[parts.length - 1];
         return `${year}/${month}/${day}/${filename}`.toLowerCase().replace(/ /g, '-');
       });
-
+      imagePaths = imagePaths.concat(newImagePaths);
       console.log('Updated Image paths:', imagePaths);
 
       // Optional: Remove old images if necessary
@@ -141,8 +155,15 @@ export class ProjectsService {
     const imagePaths = existingProject.images.map(image => join(imageFolderPath, image));
 
     for (const imagePath of imagePaths) {
-      await this.deleteFile(imagePath);
+      try {
+        await this.deleteFile(imagePath);
+      } catch (error) {
+        if (error.code !== 'ENOENT') {
+          throw error; // Re-throw if it's not a "file not found" error
+        }
+      }
     }
+
 
     // Check if the folder is empty and delete it if it is
     await this.deleteFolderIfEmpty(imageFolderPath);

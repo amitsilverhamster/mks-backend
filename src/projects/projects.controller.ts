@@ -47,7 +47,11 @@ export class ProjectsController {
   findAll() {
     return this.projectsService.findAll();
   }
-
+  @Get('/get-projects')
+  @ApiResponse({ status: 200, description: 'Returns some products.' })
+  findSome() {
+    return this.projectsService.findSome();
+  }
   @Get('edit/:id')
   @ApiResponse({ status: 200, description: 'Returns the project with the given id.' })
   findOne(@Param('id') id: string) {
